@@ -1,4 +1,6 @@
-import  random as rd
+import random as rd
+import math
+
 #Seteo de variables enteras
 amount=0
 bigs=0
@@ -77,6 +79,10 @@ def random_integer(prob_distrib):
 
 def unirform(a,b):
     return a + rd.uniform(0,1) - (b-a)
+
+def expon(mean):
+    U = rd.uniform(0,1)
+    return -(mean)*math.log(U)
 
 if __name__ == '__main__':
     num_events = 4
