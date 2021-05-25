@@ -69,6 +69,7 @@ def report():
     print(smalls, bigs, aux, avg_ordering_cost, avg_holding_cost, avg_shortage_cost)
 
 def update_time_avg_stats():
+    global time_last_event
     time_since_last_event = sim_time - time_last_event
     time_last_event = sim_time
     if(inv_level < 0):
@@ -88,7 +89,7 @@ def expon(mean):
     return -(mean)*math.log(U)
 
 def timing():
-    i
+
     min_time_next_event= 10**29
     next_event_type =0
     for i in range(1, num_events, 1):
@@ -99,6 +100,7 @@ def timing():
         print('Event list empty at time') #aca va el sim_time pero no me lo toma
     sim_time=min_time_next_event    
 if __name__ == '__main__':
+
     num_events = 4
     initial_inv_level=60
     num_months=120
