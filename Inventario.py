@@ -1,7 +1,10 @@
 import random as rd
 import math
+import numpy as np
 
 #Seteo de variables enteras
+NumEvents = 2 #Defimos número de tipos de eventos (usamos 2: arribos y llegadas)
+TimeNextEvent = np.zeros([NumEvents+1])
 amount=0
 bigs=0
 initial_inv_level=0
@@ -73,9 +76,9 @@ def update_time_avg_stats():
     elif (inv_level > 0):
         area_holding += inv_level * time_since_last_event
 
-def random_integer(prob_distrib):
+'''def random_integer(prob_distrib):
     u=rd.uniform(0,1)
-    for i in prob_distrib[i]:
+    for i in prob_distrib[i]:'''
 
 def unirform(a,b):
     return a + rd.uniform(0,1) - (b-a)
@@ -84,7 +87,48 @@ def expon(mean):
     U = rd.uniform(0,1)
     return -(mean)*math.log(U)
 
+def timing():
+    i
+    min_time_next_event= 10**29
+    next_event_type =0
+    for i in range(1, num_events, 1):
+        if time_next_event[i]<min_time_next_event:
+            min_time_next_event= time_next_event[i]
+            next_event_type = i
+    if (next_event_type==0):
+        print('Event list empty at time') #aca va el sim_time pero no me lo toma
+    sim_time=min_time_next_event    
 if __name__ == '__main__':
     num_events = 4
+    initial_inv_level=60
+    num_months=120
+    num_policies=9
+    num_values_demand=4
+    mean_interdemand=0.10
+    setup_cost=32
+    incremental_cost=3
+    holding_cost=1
+    shortage_cost=5*4
+    minlag=0.5
+    maxlag=1
+    prob_distrib_demand={0.167,0.500,0.833,1.00}
 
-#asda
+    #Run the simulation varying the invetory policy
+    while True:
+        for i in range(num_policies):
+            smalls=20
+            bigs=40
+            initialize
+        timing()
+        update_time_avg_stats()
+        if(next_event_type==1):
+            order_arrival()
+        elif(next_event_type==2):
+            demand()
+        elif(next_event_type==4):
+            evaluate()
+        elif(next_event_type==3):
+            report()
+            break
+
+
