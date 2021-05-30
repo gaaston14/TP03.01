@@ -77,11 +77,15 @@ def update_time_avg_stats():
     elif (inv_level > 0):
         area_holding += inv_level * time_since_last_event
 
-'''def random_integer(prob_distrib):
+def random_integer(prob_distrib):
     u=rd.uniform(0,1)
-    for i in prob_distrib[i]:'''
+    i=1
+    while (u>=prob_distrib[i]):
+        i=+1        
+    return prob_distrib[i]    
 
-def unirform(a,b):
+
+def uniform(a,b):
     return a + rd.uniform(0,1) - (b-a)
 
 def expon(mean):
@@ -104,7 +108,7 @@ if __name__ == '__main__':
     num_events = 4
     initial_inv_level=60
     num_months=120
-    num_policies=9
+    num_policies=1
     num_values_demand=4
     mean_interdemand=0.10
     setup_cost=32
