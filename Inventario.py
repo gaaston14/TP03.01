@@ -27,49 +27,55 @@ shortage_cost=0.0
 sim_time=0.0
 time_last_event=0.0
 total_ordering_cost=0.0
+NumEvents = 2
 #seteo de listas flotantes
 prob_distrib_demand=[]
 for i in range(26):
     prob_distrib_demand.append(0.0)
 time_next_event=[]
-for i in range(5):
+for i in range(4):
     time_next_event.append(0.0)
 
 def initialize():
+    global inv_level,time_last_event,total_ordering_cost,area_holding,area_shortage
     sim_time = 0.0
     inv_level= initial_inv_level
     time_last_event = 0.0
     total_ordering_cost = 0.0
     area_holding = 0.0
     area_shortage = 0.0
-    time_next_event[1] = 10**30
-    time_next_event[2] = sim_time + expon(mean_interdemand)
-    time_next_event[3] = num_months
-    time_next_event[4] = 0.0
+    time_next_event[0] = 10**30
+    time_next_event[1] = sim_time + expon(mean_interdemand)
+    time_next_event[2] = num_months
+    time_next_event[3] = 0.0
 
 def order_arrival():
+    global inv_level
     inv_level += amount
-    time_next_event[1] = 10**30
+    time_next_event[0] = 10**30
 
 def demand():
-    inv_level -= random_integer(prob_distrib_demand)
-    time_next_event[2] = sim_time + expon(mean_interdemand)
+    global inv_level
+    inv_level -= rd.random(prob_distrib_demand)
+    time_next_event[1] = sim_time + expon(mean_interdemand)
 
 def evaluate():
+    global total_ordering_cost
     if(inv_level < smalls):
         amount = bigs - inv_level
         total_ordering_cost +=setup_cost + incremental_cost * amount
-        tome_next_event[1] = sim_time + uniform(minlag, maxlag)
-    time_next_event[4] = sim_time + 1.0
+        time_next_event[0] = sim_time + uniform(minlag, maxlag)
+    time_next_event[3] = sim_time + 1.0
 
 def report():
+    global avg
     avg_ordering_cost = total_ordering_cost / num_months
     avg_holding_cost = holding_cost * area_holding / num_months
     aux=avg_ordering_cost+avg_holding_cost+avg_shortage_cost
     print(smalls, bigs, aux, avg_ordering_cost, avg_holding_cost, avg_shortage_cost)
 
 def update_time_avg_stats():
-    global time_last_event
+    global time_last_event,area_shortage,area_holding
     time_since_last_event = sim_time - time_last_event
     time_last_event = sim_time
     if(inv_level < 0):
@@ -93,18 +99,20 @@ def expon(mean):
     return -(mean)*math.log(U)
 
 def timing():
-
+    global sim_time,next_event_type
     min_time_next_event= 10**29
     next_event_type =0
-    for i in range(1, num_events, 1):
+    for i in range(0,num_events):
         if time_next_event[i]<min_time_next_event:
             min_time_next_event= time_next_event[i]
             next_event_type = i
-    if (next_event_type==0):
+    if (next_event_type <0):
         print('Event list empty at time') #aca va el sim_time pero no me lo toma
-    sim_time=min_time_next_event    
-if __name__ == '__main__':
+        sim_time=min_time_next_event
 
+
+
+if __name__ == '__main__':
     num_events = 4
     initial_inv_level=60
     num_months=120
@@ -118,23 +126,21 @@ if __name__ == '__main__':
     minlag=0.5
     maxlag=1
     prob_distrib_demand={0.167,0.500,0.833,1.00}
-
     #Run the simulation varying the invetory policy
+    initialize()
     while True:
         for i in range(num_policies):
             smalls=20
             bigs=40
-            initialize
         timing()
         update_time_avg_stats()
-        if(next_event_type==1):
+        if(next_event_type==0):
             order_arrival()
-        elif(next_event_type==2):
+        elif(next_event_type==1):
             demand()
-        elif(next_event_type==4):
-            evaluate()
-        elif(next_event_type==3):
+        elif(next_event_type==2):
             report()
-            break
+        elif(next_event_type==3):
+            evaluate()
 
 

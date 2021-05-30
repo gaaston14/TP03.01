@@ -8,6 +8,7 @@ from MM1Utiles import funExpon
 #README
 #Criterio de estabilidad MM1: la tasa de servicio debe ser mayor que la tasa de llegada
 
+
 NumEvents = 2 #Defimos número de tipos de eventos (usamos 2: arribos y llegadas)
 
 #Constantes a usar para entender mejor el código
