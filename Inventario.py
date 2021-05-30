@@ -56,8 +56,8 @@ def order_arrival():
 
 def demand():
     global inv_level
-    inv_level -= rd.random(prob_distrib_demand)
-    time_next_event[1] = sim_time + expon(mean_interdemand)
+    inv_level -= random_integer(prob_distrib_demand)
+    time_next_event[0] = sim_time + expon(mean_interdemand)
 
 def evaluate():
     global total_ordering_cost
@@ -68,7 +68,7 @@ def evaluate():
     time_next_event[3] = sim_time + 1.0
 
 def report():
-    global avg
+    global avg_shortage_cost
     avg_ordering_cost = total_ordering_cost / num_months
     avg_holding_cost = holding_cost * area_holding / num_months
     aux=avg_ordering_cost+avg_holding_cost+avg_shortage_cost
@@ -83,7 +83,7 @@ def update_time_avg_stats():
     elif (inv_level > 0):
         area_holding += inv_level * time_since_last_event
 
-def random_integer(prob_distrib):
+def random_integer(prob_distrib:list):
     u=rd.uniform(0,1)
     i=1
     while (u>=prob_distrib[i]):
@@ -125,7 +125,7 @@ if __name__ == '__main__':
     shortage_cost=5*4
     minlag=0.5
     maxlag=1
-    prob_distrib_demand={0.167,0.500,0.833,1.00}
+    prob_distrib_demand=[0.167,0.500,0.833,1.00]
     #Run the simulation varying the invetory policy
     initialize()
     while True:
