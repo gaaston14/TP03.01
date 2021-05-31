@@ -51,17 +51,18 @@ def initialize():
     time_next_event[4] = 0.0
 
 def order_arrival():
-    global inv_level
+    global inv_level,time_last_event,amount
     inv_level =inv_level + amount
     time_next_event[1] = 10**30
 
 def demand():
-    global inv_level
-    inv_level =inv_level - (random_integer(prob_distrib_demand))
+    global inv_level,time_next_event
+    sizedemand=random_integer(prob_distrib_demand)
+    inv_level =inv_level - sizedemand
     time_next_event[2] = sim_time + expon(mean_interdemand)
 
 def evaluate():
-    global total_ordering_cost,sim_time
+    global total_ordering_cost,sim_time,time_next_event,amount
     if(inv_level < smalls):
         amount = bigs - inv_level
         total_ordering_cost = total_ordering_cost+ setup_cost + incremental_cost * amount
@@ -81,7 +82,7 @@ def update_time_avg_stats():
     time_since_last_event = sim_time - time_last_event
     time_last_event = sim_time
     if(inv_level < 0):
-        area_shortage =area_shortage-(inv_level * time_since_last_event)
+        area_shortage =area_shortage-inv_level * time_since_last_event
     elif (inv_level > 0):
         area_holding =area_holding+inv_level * time_since_last_event
 
@@ -95,7 +96,7 @@ def random_integer(prob_distrib:list):
 
 
 def uniform(a,b):
-    return ((a + np.random.uniform(0,1)) * (b-a))
+    return (a + np.random.uniform(0,1) * (b-a))
 
 def expon(mean):
     U = np.random.uniform(0,1)
@@ -113,7 +114,7 @@ def timing():
         if time_next_event[i]<min_time_next_event:
             min_time_next_event=time_next_event[i]
             next_event_type=i
-    if (next_event_type <=0):
+    if (next_event_type ==0):
         print('Event list empty at time') #aca va el sim_time pero no me lo toma
         sys.exit()
     sim_time=min_time_next_event
@@ -130,8 +131,8 @@ if __name__ == '__main__':
     num_values_demand=4
     mean_interdemand=0.10
     setup_cost=32
-    incremental_cost=3
-    holding_cost=1
+    incremental_cost=3.0
+    holding_cost=1.0
     shortage_cost=5*4
     minlag=0.5
     maxlag=1
