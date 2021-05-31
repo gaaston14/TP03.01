@@ -143,7 +143,6 @@ if __name__ == '__main__':
         bigs = bigsArreglo[a]
         initialize()
         while (next_event_type!=3) :
-            c=c+1
             timing()
             update_time_avg_stats()
             if(next_event_type==1):
