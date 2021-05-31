@@ -74,7 +74,7 @@ def report():
     avg_holding_cost = holding_cost * area_holding / num_months
     avg_shortage_cost = shortage_cost*area_shortage/num_months
     aux=avg_ordering_cost+avg_holding_cost+avg_shortage_cost
-    print(smalls, bigs,"\t\t",round(aux,4) ,"\t\t\t\t", round(avg_ordering_cost,4),"\t\t\t\t\t\t\t", round(avg_holding_cost,4),"\t\t\t\t\t", round(avg_shortage_cost,4))
+    print(smalls, bigs,"\t\t",round(aux,2) ,"\t\t\t\t", round(avg_ordering_cost,2),"\t\t\t\t\t\t\t", round(avg_holding_cost,2),"\t\t\t\t\t", round(avg_shortage_cost,2))
 
 def update_time_avg_stats():
     global time_last_event,area_shortage,area_holding
@@ -144,6 +144,7 @@ if __name__ == '__main__':
     print("Rago de retraso de entrega\t\t\t\t",minlag,"To",maxlag)
     print("Duracion de al simulacion\t\t\t\t",num_months,"Meses")
     print("K =",setup_cost,"i = ",incremental_cost, "h = ",holding_cost,"PI=???" )
+    print("Numero de politicas\t\t\t\t\t\t\t\t",num_policies)
     print("Policy\t Costo total promedio\t  promedio de pedido\t Costo promedio de mantenimiento\t Costo promediod de escaces")
     for a,i in enumerate(smallsArreglo):
         smalls = i
