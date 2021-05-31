@@ -74,8 +74,7 @@ def report():
     avg_holding_cost = holding_cost * area_holding / num_months
     avg_shortage_cost = shortage_cost*area_shortage/num_months
     aux=avg_ordering_cost+avg_holding_cost+avg_shortage_cost
-    print(c)
-    print(smalls, bigs,aux , avg_ordering_cost, avg_holding_cost, avg_shortage_cost)
+    print(smalls, bigs,"\t\t",round(aux,4) ,"\t\t\t\t", round(avg_ordering_cost,4),"\t\t\t\t\t\t\t", round(avg_holding_cost,4),"\t\t\t\t\t", round(avg_shortage_cost,4))
 
 def update_time_avg_stats():
     global time_last_event,area_shortage,area_holding
@@ -138,10 +137,19 @@ if __name__ == '__main__':
     maxlag=1
     prob_distrib_demand=[0.167,0.500,0.833,1.00]
     #Run the simulation varying the invetory policy
+    print("Nivel inicial de inventario\t\t\t\t",initial_inv_level)
+    print("Tamaño de la demanda\t\t\t\t\t",num_events)
+    print("Funcion de distribucion de demandas\t\t",prob_distrib_demand)
+    print("Tiempo medio entre demanda\t\t\t\t",mean_interdemand)
+    print("Rago de retraso de entrega\t\t\t\t",minlag,"To",maxlag)
+    print("Duracion de al simulacion\t\t\t\t",num_months,"Meses")
+    print("K =",setup_cost,"i = ",incremental_cost, "h = ",holding_cost,"PI=???" )
+    print("Policy\t Costo total promedio\t  promedio de pedido\t Costo promedio de mantenimiento\t Costo promediod de escaces")
     for a,i in enumerate(smallsArreglo):
         smalls = i
         bigs = bigsArreglo[a]
         initialize()
+
         while (next_event_type!=3) :
             timing()
             update_time_avg_stats()
