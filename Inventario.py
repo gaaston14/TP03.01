@@ -55,7 +55,7 @@ def order_arrival():
 
 def demand():
     global inv_level
-    inv_level =(inv_level) - random_integer(prob_distrib_demand)
+    inv_level =inv_level - (random_integer(prob_distrib_demand))
     time_next_event[2] = sim_time + expon(mean_interdemand)
 
 def evaluate():
@@ -83,12 +83,12 @@ def update_time_avg_stats():
         area_holding =area_holding+inv_level * time_since_last_event
 
 def random_integer(prob_distrib:list):
-    a=0.0
+    b=0
     u=rd.uniform(0,1)
-    for i in prob_distrib:
+    for a,i in enumerate(prob_distrib):
         if u>=i:
-            a=i
-    return a
+            b=a+1
+    return b
 
 
 def uniform(a,b):
