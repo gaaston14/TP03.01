@@ -142,7 +142,6 @@ if __name__ == '__main__':
         smalls = i
         bigs = bigsArreglo[a]
         initialize()
-        c=0
         while (next_event_type!=3) :
             c=c+1
             timing()
