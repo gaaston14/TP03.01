@@ -36,7 +36,7 @@ for i in range(5):
     time_next_event.append(0.0)
 
 def initialize():
-    global inv_level,time_last_event,total_ordering_cost,area_holding,area_shortage
+    global inv_level,time_last_event,total_ordering_cost,area_holding,area_shortage,sim_time,time_next_event
     sim_time = 0.0
     inv_level= initial_inv_level
     time_last_event = 0.0
@@ -87,7 +87,7 @@ def random_integer(prob_distrib:list):
     u=rd.uniform(0,1)
     for a,i in enumerate(prob_distrib):
         if u>=i:
-            b=a+1
+            b=b+a
     return b
 
 
