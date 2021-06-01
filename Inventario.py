@@ -55,8 +55,6 @@ def initialize():
     time_next_event[4] = 0.0
     nivel_inventario=[]
     tiempo_inventario=[]
-    sin_stok = []
-    tiempo_sin_stock = []
 def order_arrival():
     global inv_level,time_last_event,amount,nivel_inventario,tiempo_inventario
     inv_level =inv_level + amount
@@ -126,8 +124,10 @@ def timing():
     sim_time=min_time_next_event
 
 def grafica_inventario(nivel,tiempo):
+    plt.title("Nivel de inventario con minimo:{} Maximo: {}".format(smalls,bigs))
     plt.plot(tiempo,nivel)
     plt.show()
+    plt.title("Nivel de inventario con minimo:{} Maximo: {}".format(smalls, bigs))
     plt.bar(tiempo,nivel)
     plt.show()
 
@@ -144,7 +144,7 @@ if __name__ == '__main__':
     mean_interdemand=0.1
     setup_cost=32
     incremental_cost=3.0
-    holding_cost=1
+    holding_cost=5
     shortage_cost=5*4
     minlag=0.5
     maxlag=1
@@ -174,7 +174,7 @@ if __name__ == '__main__':
             elif(next_event_type==3):
                 report()
                 grafica_inventario(nivel_inventario,tiempo_inventario)
-                grafica_inventario(sin_stok,tiempo_sin_stock)
+
             elif(next_event_type==4):
                 evaluate()
 
