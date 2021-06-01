@@ -2,6 +2,8 @@ import random as rd
 import math
 import sys
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 #Seteo de variables enteras
 amount=0
@@ -27,6 +29,8 @@ shortage_cost=0.0
 sim_time=0.0
 time_last_event=0.0
 total_ordering_cost=0.0
+nivel_inventario = []
+tiempo_inventario = []
 
 #seteo de listas flotantes
 prob_distrib_demand=[]
@@ -37,7 +41,7 @@ for i in range(5):
     time_next_event.append(0.0)
 
 def initialize():
-    global inv_level,time_last_event,total_ordering_cost,area_holding,area_shortage,sim_time,time_next_event,next_event_type
+    global inv_level,time_last_event,total_ordering_cost,area_holding,area_shortage,sim_time,time_next_event,next_event_type,nivel_inventario,tiempo_inventario
     sim_time = 0.0
     inv_level= initial_inv_level
     time_last_event = 0.0
@@ -49,18 +53,22 @@ def initialize():
     time_next_event[2] = sim_time + expon(mean_interdemand)
     time_next_event[3] = num_months
     time_next_event[4] = 0.0
-
+    nivel_inventario=[]
+    tiempo_inventario=[]
+    sin_stok = []
+    tiempo_sin_stock = []
 def order_arrival():
-    global inv_level,time_last_event,amount
+    global inv_level,time_last_event,amount,nivel_inventario,tiempo_inventario
     inv_level =inv_level + amount
     time_next_event[1] = 10**30
 
 def demand():
-    global inv_level,time_next_event
+    global inv_level,time_next_event,nivel_inventario,tiempo_inventario
     sizedemand=random_integer(prob_distrib_demand)
     inv_level =inv_level - sizedemand
     time_next_event[2] = sim_time + expon(mean_interdemand)
-
+    nivel_inventario.append(inv_level)
+    tiempo_inventario.append(sim_time)
 def evaluate():
     global total_ordering_cost,sim_time,time_next_event,amount
     if(inv_level < smalls):
@@ -75,7 +83,6 @@ def report():
     avg_shortage_cost = shortage_cost*area_shortage/num_months
     aux=avg_ordering_cost+avg_holding_cost+avg_shortage_cost
     print(smalls, bigs,"\t\t",round(aux,2) ,"\t\t\t\t", round(avg_ordering_cost,2),"\t\t\t\t\t\t\t", round(avg_holding_cost,2),"\t\t\t\t\t", round(avg_shortage_cost,2))
-
 def update_time_avg_stats():
     global time_last_event,area_shortage,area_holding
     time_since_last_event = sim_time - time_last_event
@@ -118,6 +125,12 @@ def timing():
         sys.exit()
     sim_time=min_time_next_event
 
+def grafica_inventario(nivel,tiempo):
+    plt.plot(tiempo,nivel)
+    plt.show()
+    plt.bar(tiempo,nivel)
+    plt.show()
+
 
 
 if __name__ == '__main__':
@@ -128,10 +141,10 @@ if __name__ == '__main__':
     num_months=120
     num_policies=9
     num_values_demand=4
-    mean_interdemand=0.10
+    mean_interdemand=0.1
     setup_cost=32
     incremental_cost=3.0
-    holding_cost=1.0
+    holding_cost=1
     shortage_cost=5*4
     minlag=0.5
     maxlag=1
@@ -160,6 +173,8 @@ if __name__ == '__main__':
                 demand()
             elif(next_event_type==3):
                 report()
+                grafica_inventario(nivel_inventario,tiempo_inventario)
+                grafica_inventario(sin_stok,tiempo_sin_stock)
             elif(next_event_type==4):
                 evaluate()
 
