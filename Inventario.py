@@ -64,7 +64,8 @@ def order_arrival():
     global inv_level,time_last_event,amount,nivel_inventario,tiempo_inventario
     inv_level =inv_level + amount
     time_next_event[1] = 10**30
-
+    nivel_inventario.append(inv_level)
+    tiempo_inventario.append(sim_time)
 def demand():
     global inv_level,time_next_event,nivel_inventario,tiempo_inventario
     sizedemand=random_integer(prob_distrib_demand)
@@ -154,8 +155,8 @@ if __name__ == '__main__':
     mean_interdemand=0.1
     setup_cost=32
     incremental_cost=3.0
-    holding_cost=5
-    shortage_cost=5*4
+    holding_cost=1
+    shortage_cost=5
     minlag=0.5
     maxlag=1
     prob_distrib_demand=[0.167,0.500,0.833,1.00]
@@ -166,7 +167,7 @@ if __name__ == '__main__':
     print("Tiempo medio entre demanda\t\t\t\t",mean_interdemand)
     print("Rago de retraso de entrega\t\t\t\t",minlag,"To",maxlag)
     print("Duracion de al simulacion\t\t\t\t",num_months,"Meses")
-    print("K =",setup_cost,"i = ",incremental_cost, "h = ",holding_cost,"PI=???" )
+    print("K =",setup_cost,"i = ",incremental_cost, "h = ",holding_cost,"PI=",shortage_cost )
     print("Numero de politicas\t\t\t\t\t\t\t\t",num_policies)
     print("Policy\t Costo total promedio\t  promedio de pedido\t Costo promedio de mantenimiento\t Costo promediod de escaces")
     for a,i in enumerate(smallsArreglo):
