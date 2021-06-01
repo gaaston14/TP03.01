@@ -31,6 +31,9 @@ time_last_event=0.0
 total_ordering_cost=0.0
 nivel_inventario = []
 tiempo_inventario = []
+costo_ordenes = []
+tiempo_ordenes = []
+
 
 #seteo de listas flotantes
 prob_distrib_demand=[]
@@ -41,7 +44,7 @@ for i in range(5):
     time_next_event.append(0.0)
 
 def initialize():
-    global inv_level,time_last_event,total_ordering_cost,area_holding,area_shortage,sim_time,time_next_event,next_event_type,nivel_inventario,tiempo_inventario
+    global inv_level,time_last_event,total_ordering_cost,area_holding,area_shortage,sim_time,time_next_event,next_event_type,nivel_inventario,tiempo_inventario,costo_ordenes,tiempo_ordenes
     sim_time = 0.0
     inv_level= initial_inv_level
     time_last_event = 0.0
@@ -55,6 +58,8 @@ def initialize():
     time_next_event[4] = 0.0
     nivel_inventario=[]
     tiempo_inventario=[]
+    costo_ordenes = []
+    tiempo_ordenes = []
 def order_arrival():
     global inv_level,time_last_event,amount,nivel_inventario,tiempo_inventario
     inv_level =inv_level + amount
@@ -68,11 +73,14 @@ def demand():
     nivel_inventario.append(inv_level)
     tiempo_inventario.append(sim_time)
 def evaluate():
-    global total_ordering_cost,sim_time,time_next_event,amount
+    global total_ordering_cost,sim_time,time_next_event,amount,costo_ordenes,tiempo_ordenes
     if(inv_level < smalls):
         amount = bigs - inv_level
         total_ordering_cost = total_ordering_cost+ setup_cost + incremental_cost * amount
         time_next_event[1] = sim_time + uniform(minlag, maxlag)
+        aux=total_ordering_cost/sim_time
+        costo_ordenes.append(aux)
+        tiempo_ordenes.append(sim_time)
     time_next_event[4] = sim_time + 1.0
 
 def report():
@@ -130,8 +138,10 @@ def grafica_inventario(nivel,tiempo):
     plt.title("Nivel de inventario con minimo:{} Maximo: {}".format(smalls, bigs))
     plt.bar(tiempo,nivel)
     plt.show()
-
-
+def grafica_orden(nivel,tiempo):
+    plt.title("Costo promedio de ordenes con minimo:{} Maximo: {}".format(smalls,bigs))
+    plt.plot(tiempo,nivel)
+    plt.show()
 
 if __name__ == '__main__':
     smallsArreglo=[20,20,20,20,40,40,40,60,60]
@@ -174,7 +184,7 @@ if __name__ == '__main__':
             elif(next_event_type==3):
                 report()
                 grafica_inventario(nivel_inventario,tiempo_inventario)
-
+                grafica_orden(costo_ordenes,tiempo_ordenes)
             elif(next_event_type==4):
                 evaluate()
 
