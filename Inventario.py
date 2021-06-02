@@ -66,6 +66,7 @@ def order_arrival():
     time_next_event[1] = 10**30
     nivel_inventario.append(inv_level)
     tiempo_inventario.append(sim_time)
+
 def demand():
     global inv_level,time_next_event,nivel_inventario,tiempo_inventario
     sizedemand=random_integer(prob_distrib_demand)
@@ -73,6 +74,7 @@ def demand():
     time_next_event[2] = sim_time + expon(mean_interdemand)
     nivel_inventario.append(inv_level)
     tiempo_inventario.append(sim_time)
+
 def evaluate():
     global total_ordering_cost,sim_time,time_next_event,amount,costo_ordenes,tiempo_ordenes
     if(inv_level < smalls):
@@ -104,7 +106,7 @@ def random_integer(prob_distrib:list):
     u=np.random.uniform(0,1)
     for a,i in enumerate(prob_distrib):
         if u>=i:
-            b=b+a
+            b=b+1
     return b
 
 
